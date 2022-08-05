@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class OperationFeedback {
 
     @Id
@@ -21,6 +22,7 @@ public class OperationFeedback {
     OperationCategory category;
     LocalDateTime start;
     LocalDateTime stop;
+    LocalDateTime duration;
     @ManyToOne
     Operator operator;
 

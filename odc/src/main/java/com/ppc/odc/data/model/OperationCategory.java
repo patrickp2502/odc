@@ -1,5 +1,6 @@
 package com.ppc.odc.data.model;
 
+import jdk.jfr.Name;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -16,20 +17,15 @@ import java.util.Objects;
 @NoArgsConstructor
 @ToString
 @Table
+@Builder
 public class OperationCategory {
 
     @Id
     @GeneratedValue
     long id;
+    String name;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        OperationCategory that = (OperationCategory) o;
-        return Objects.equals(id, that.id);
-    }
 
     @Override
     public int hashCode() {

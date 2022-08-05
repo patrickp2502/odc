@@ -1,6 +1,7 @@
-package com.ppc.odc;
+package com.ppc.odc.controller;
 
 import com.ppc.odc.data.model.OperationFeedback;
+import com.ppc.odc.data.repositories.OperationFeedbackRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,9 @@ public class OperationController {
 
     @GetMapping
     public List<OperationFeedback> getAllOperationFeedback() {
-
-
-
-        return
-
+        return operationFeedbackRepository.findAll();
     }
+
 
 
 }

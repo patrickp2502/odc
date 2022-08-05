@@ -11,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Table
+@Builder
 public class Operator {
 
     @Id
