@@ -1,9 +1,9 @@
 package com.ppc.odc.data.creation;
 
 
-import com.ppc.odc.data.model.OperationFeedback;
+import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.data.model.Operator;
-import com.ppc.odc.data.repositories.OperationFeedbackRepository;
+import com.ppc.odc.data.repositories.OperationStepRepository;
 import com.ppc.odc.data.repositories.OperatorRepository;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -17,12 +17,12 @@ import static com.ppc.odc.data.creation.DataCreatorConfiguration.*;
 @Component
 public class OperationFeedbackCreator {
 
-    private final OperationFeedbackRepository operationFeedbackRepository;
+    private final OperationStepRepository operationStepRepository;
     private final OperatorRepository operatorRepository;
 
-    public OperationFeedbackCreator(OperationFeedbackRepository operationFeedbackRepository,
+    public OperationFeedbackCreator(OperationStepRepository operationStepRepository,
                                     OperatorRepository operatorRepository) {
-        this.operationFeedbackRepository = operationFeedbackRepository;
+        this.operationStepRepository = operationStepRepository;
         this.operatorRepository = operatorRepository;
         initialize();
     }
@@ -30,22 +30,22 @@ public class OperationFeedbackCreator {
     private void initialize() {
         List<Operator> operators = operatorRepository.findAll();
         for (int i = 0; i < FEEDBACK_COUNT; i++) {
-            operationFeedbackRepository.save(createOperationFeedback(
+            operationStepRepository.save(createOperationFeedback(
                     (i < FEEDBACK_COUNT * FULLFILLED_FEEDBACK_FACTOR),
                     operators.get(new Random().nextInt(operators.size()))));
 
         }
-        System.out.println(operationFeedbackRepository.findAll());
+        System.out.println(operationStepRepository.findAll());
 
     }
 
-    private OperationFeedback createOperationFeedback(boolean fullFilled, Operator operator) {
+    private OperationStep createOperationFeedback(boolean fullFilled, Operator operator) {
         LocalDateTime startDate = FEEDBACK_STARTING_DATE;
         LocalDateTime stopDate = fullFilled ? startDate.minusHours(
                 new Random().nextLong(FEEDBACK_TIME_SPAN_HOURS)) : null;
 
 
-        return OperationFeedback.builder()
+        return OperationStep.builder()
                 .operator(operator)
                 .category(operator.getOperationCategory())
                 .start(startDate)
