@@ -1,6 +1,7 @@
 package com.ppc.odc.service;
 
 import com.ppc.odc.data.model.Operation;
+import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.data.repositories.OperationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,9 @@ public class OperationService {
                 .orElseThrow(() -> new EntityNotFoundException("operation not found by id = " + id));
     }
 
+    public List<OperationStep> getOperationSteps(long id) {
+        Operation operation = getOperationBy(id);
+        return operation.getSteps();
+    }
 
 }

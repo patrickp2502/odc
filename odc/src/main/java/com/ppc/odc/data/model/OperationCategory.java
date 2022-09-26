@@ -19,6 +19,7 @@ public class OperationCategory {
     @GeneratedValue
     long id;
     String name;
+    String shortName;
 
 
 

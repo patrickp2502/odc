@@ -5,7 +5,6 @@ import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.data.model.Operator;
 import com.ppc.odc.data.repositories.OperationStepRepository;
 import com.ppc.odc.data.repositories.OperatorRepository;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -13,21 +12,21 @@ import java.util.List;
 import java.util.Random;
 
 import static com.ppc.odc.data.creation.DataCreatorConfiguration.*;
-@DependsOn("operatorCreator")
+
 @Component
-public class OperationFeedbackCreator {
+@Deprecated
+public class OperationStepCreator {
 
     private final OperationStepRepository operationStepRepository;
     private final OperatorRepository operatorRepository;
 
-    public OperationFeedbackCreator(OperationStepRepository operationStepRepository,
-                                    OperatorRepository operatorRepository) {
+    public OperationStepCreator(OperationStepRepository operationStepRepository,
+                                OperatorRepository operatorRepository) {
         this.operationStepRepository = operationStepRepository;
         this.operatorRepository = operatorRepository;
-        initialize();
     }
 
-    private void initialize() {
+    public void initialize() {
         List<Operator> operators = operatorRepository.findAll();
         for (int i = 0; i < FEEDBACK_COUNT; i++) {
             operationStepRepository.save(createOperationFeedback(

@@ -19,11 +19,10 @@ public class OperatorCreator {
                            OperationCategoryRepository operationCategoryRepository) {
         this.operatorRepository = operatorRepository;
         this.operationCategoryRepository = operationCategoryRepository;
-        initialize();
 
     }
 
-    private void initialize() {
+    public void initialize() {
         List<Operator> operators = new ArrayList<>();
         for (int i = 0; i < DataCreatorConfiguration.OPERATOR_COUNT; i++) {
             operators.add(createRandomOperator());

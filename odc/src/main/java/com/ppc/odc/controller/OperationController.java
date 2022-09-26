@@ -1,6 +1,7 @@
 package com.ppc.odc.controller;
 
 import com.ppc.odc.data.model.Operation;
+import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.service.OperationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +23,22 @@ public class OperationController {
     }
 
     @GetMapping("/{id}")
-    public Operation getOperation(@RequestParam long operationId) {
-
-
-        return null;
+    public Operation getOperation(@PathVariable long id) {
+        return operationService.getOperationBy(id);
     }
+
+    @GetMapping("/{id}/steps")
+    public List<OperationStep> getOperationSteps(@PathVariable long id) {
+        return operationService.getOperationSteps(id);
+    }
+
+
+    //fixme really a need for operationId?
+    @GetMapping("/{operationId}/steps/{stepId}")
+    public OperationStep getOperationStepBy(@PathVariable("stepId") long stepId) {
+        return operationService.getOperationStepBy(stepId);
+    }
+
 
 
 }
