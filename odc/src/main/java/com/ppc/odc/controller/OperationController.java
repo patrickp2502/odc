@@ -1,6 +1,7 @@
 package com.ppc.odc.controller;
 
 import com.ppc.odc.data.model.Operation;
+import com.ppc.odc.data.model.OperationStatus;
 import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.service.OperationService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import java.util.List;
 public class OperationController {
 
     private final OperationService operationService;
-
 
     @GetMapping
     public List<Operation> getAllOperations() {
@@ -32,13 +32,9 @@ public class OperationController {
         return operationService.getOperationSteps(id);
     }
 
-
-    //fixme really a need for operationId?
-    @GetMapping("/{operationId}/steps/{stepId}")
-    public OperationStep getOperationStepBy(@PathVariable("stepId") long stepId) {
-        return operationService.getOperationStepBy(stepId);
+    @GetMapping("/statuses")
+    public List<OperationStatus> getStatuses() {
+        return operationService.getStatuses();
     }
-
-
 
 }

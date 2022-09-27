@@ -20,6 +20,7 @@ public class OperationStep {
     private long id;
     @ManyToOne
     private OperationCategory category;
+    @ManyToOne
     private OperationStepStatus status;
     private LocalDateTime start;
     private LocalDateTime stop;

@@ -23,6 +23,7 @@ private long id;
     private long duration;
     private LocalDateTime startTime;
     private LocalDateTime stopTime;
+    @ManyToOne
     private OperationStatus status;
 
 

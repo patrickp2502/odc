@@ -27,7 +27,7 @@ public class OperatorCreator {
         for (int i = 0; i < DataCreatorConfiguration.OPERATOR_COUNT; i++) {
             operators.add(createRandomOperator());
         }
-        operatorRepository.saveAll(operators).forEach(operator -> System.out.println("operator = " + operator));
+        operatorRepository.saveAll(operators);
 
     }
 

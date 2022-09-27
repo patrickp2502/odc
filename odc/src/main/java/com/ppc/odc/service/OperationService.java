@@ -1,8 +1,10 @@
 package com.ppc.odc.service;
 
 import com.ppc.odc.data.model.Operation;
+import com.ppc.odc.data.model.OperationStatus;
 import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.data.repositories.OperationRepository;
+import com.ppc.odc.data.repositories.OperationStatusRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class OperationService {
 
     private final OperationRepository operationRepository;
+    private final OperationStatusRepository operationStatusRepository;
 
     public List<Operation> getAll() {
         return operationRepository.findAll();
@@ -27,6 +30,10 @@ public class OperationService {
     public List<OperationStep> getOperationSteps(long id) {
         Operation operation = getOperationBy(id);
         return operation.getSteps();
+    }
+
+    public List<OperationStatus> getStatuses() {
+        return operationStatusRepository.findAll();
     }
 
 }
