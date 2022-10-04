@@ -1,12 +1,24 @@
 import { Card } from '@mui/material'
-import React from 'react'
-import Main from '../../templates/Main'
+import { useQuery } from 'react-query'
+import PageTemplate from '../../templates/PageTemplate'
+import { getOperations } from '../../../shared/dataProvider/api'
+import { OperationData } from '../../../shared/types/interfaces'
+import DataTable from '../../organisms/DataTable'
+
 
 const Operations = () => {
+    const { data: operations, isFetched } = useQuery<OperationData[]>(['operationsData'], () => getOperations())
+
+    if (!isFetched) {
+        return (<h5>...is Loading</h5>)
+    }
     return (
-        <Main>
-            <Card>here comes the Operations</Card>
-        </Main>
+        <PageTemplate>
+            <Card>
+                <DataTable headerCellNames={["test1", "test2", "test3"]} />
+                {operations?.map(operation => <p key={operation.id}>{operation.batchId}</p>)}
+            </Card>
+        </PageTemplate>
     )
 }
 

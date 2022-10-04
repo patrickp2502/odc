@@ -1,12 +1,12 @@
 import { Card } from '@mui/material'
 import React from 'react'
-import Main from '../../templates/Main'
+import PageTemplate from '../../templates/PageTemplate'
 
 const Index: React.FC = () => {
     return (
-        <Main>
+        <PageTemplate>
             <Card>This is the Index</Card>
-        </Main>
+        </PageTemplate>
     )
 }
 

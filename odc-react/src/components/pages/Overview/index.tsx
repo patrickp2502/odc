@@ -1,12 +1,12 @@
 import { Card } from '@mui/material'
 import React from 'react'
-import Main from '../../templates/Main'
+import PageTemplate from '../../templates/PageTemplate'
 
 const Overview = () => {
     return (
-        <Main>
+        <PageTemplate>
             <Card>here comes the OVERVIEW</Card>
-        </Main>
+        </PageTemplate>
     )
 }
 

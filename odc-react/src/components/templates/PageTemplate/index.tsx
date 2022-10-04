@@ -1,13 +1,12 @@
 import React from 'react'
 import { Grid } from '@mui/material'
-import { color } from '@mui/system'
 import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
 
 type MainProps = {
     children: React.ReactNode,
 }
 
-const Main: React.FC<MainProps> = (props) => {
+const PageTemplate: React.FC<MainProps> = (props) => {
     return (
         <Grid container
             margin={'auto'}
@@ -32,4 +31,4 @@ const Main: React.FC<MainProps> = (props) => {
     )
 }
 
-export default Main
+export default PageTemplate

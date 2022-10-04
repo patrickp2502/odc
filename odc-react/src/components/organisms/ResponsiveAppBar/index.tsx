@@ -9,9 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom'
-import { url } from 'inspector';
 
 const pages = ['Aufträge', 'Rückmeldung', 'Übersicht'];
 
@@ -37,14 +35,11 @@ export const ResponsiveAppBar = () => {
     const handleClickNavButton = (url: string) => {
         handleCloseNavMenu();
         navigate(url)
-
     }
-
 
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
 
     return (
         <AppBar position="static" style={{ 'backgroundColor': 'orange' }}>
@@ -104,7 +99,6 @@ export const ResponsiveAppBar = () => {
                             ))}
                         </Menu>
                     </Box>
-                    <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
                         variant="h5"
                         noWrap
