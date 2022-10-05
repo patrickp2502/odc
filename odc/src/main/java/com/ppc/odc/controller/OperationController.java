@@ -3,6 +3,7 @@ package com.ppc.odc.controller;
 import com.ppc.odc.data.model.Operation;
 import com.ppc.odc.data.model.OperationStatus;
 import com.ppc.odc.data.model.OperationStep;
+import com.ppc.odc.mapstruct.dtos.OperationGetDTO;
 import com.ppc.odc.service.OperationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class OperationController {
     private final OperationService operationService;
 
     @GetMapping
-    public List<Operation> getAllOperations() {
-        return operationService.getAll();
+    public List<OperationGetDTO> getAllOperations() {
+        return operationService.getAllOperationDTOs();
     }
 
     @GetMapping("/{id}")

@@ -5,11 +5,15 @@ import com.ppc.odc.data.model.OperationStatus;
 import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.data.repositories.OperationRepository;
 import com.ppc.odc.data.repositories.OperationStatusRepository;
+import com.ppc.odc.mapstruct.dtos.OperationGetDTO;
+import com.ppc.odc.mapstruct.mappers.OperationMapper;
+import com.ppc.odc.mapstruct.mappers.OperationMapperImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -17,10 +21,19 @@ public class OperationService {
 
     private final OperationRepository operationRepository;
     private final OperationStatusRepository operationStatusRepository;
+    private final OperationMapper operationMapper;
 
     public List<Operation> getAll() {
         return operationRepository.findAll();
     }
+
+
+    public List<OperationGetDTO> getAllOperationDTOs() {
+        return getAll().stream()
+                .map(operationMapper::operationToOperationGetDTO)
+                .collect(Collectors.toList());
+    }
+
 
     public Operation getOperationBy(long id) {
         return operationRepository.findById(id)
