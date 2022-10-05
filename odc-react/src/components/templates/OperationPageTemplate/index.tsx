@@ -1,12 +1,12 @@
 import React from 'react'
-import { Grid } from '@mui/material'
+import { Card, Container, Grid, Paper } from '@mui/material'
 
 type MainTemplateProps = {
     children: React.ReactNode,
     header: React.ReactNode
 }
 
-const PageTemplate: React.FC<MainTemplateProps> = (props) => {
+const OperationPageTemplate: React.FC<MainTemplateProps> = (props) => {
     return (
         <Grid container
             margin={'auto'}
@@ -21,8 +21,11 @@ const PageTemplate: React.FC<MainTemplateProps> = (props) => {
             <Grid item
                 xs={12}
                 minHeight={'600px'}
+                padding={'2em 2em'}
                 alignContent='center'>
-                {props.children}
+                <Paper elevation={3}>
+                    {props.children}
+                </Paper>
             </Grid>
             <Grid item xs={12} minHeight={'100px'} bgcolor={'black'}>
 
@@ -31,4 +34,4 @@ const PageTemplate: React.FC<MainTemplateProps> = (props) => {
     )
 }
 
-export default PageTemplate
+export default OperationPageTemplate

@@ -5,9 +5,9 @@ import { getOperations } from '../../../shared/dataProvider/api'
 import { HeaderKeyPair } from '../../../shared/types/interfaces'
 import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
 import DataTable from '../../organisms/DataTable'
+import OperationPageTemplate from '../../templates/OperationPageTemplate'
 
 const OPERATION_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
-    { key: "id", headerName: "ID" },
     { key: "batchId", headerName: "Batch" },
     { key: "startTime", headerName: "Start" },
     { key: "stopTime", headerName: "Ende" },
@@ -31,13 +31,9 @@ const Operations = () => {
     const operations = data ?? []
 
     return (
-        <PageTemplate header={<ResponsiveAppBar />}>
+        <OperationPageTemplate header={<ResponsiveAppBar />}>
             <DataTable data={operations} headerKeyTemplate={OPERATION_HEADER_KEY_TEMPLATE} />
-            <Card>
-                {operations?.map(operation =>
-                    <p key={operation.id}>{operation.batchId}</p>)}
-            </Card>
-        </PageTemplate >
+        </OperationPageTemplate >
     )
 }
 
