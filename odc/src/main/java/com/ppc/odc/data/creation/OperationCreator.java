@@ -5,6 +5,7 @@ import com.ppc.odc.data.model.enums.Status;
 import com.ppc.odc.data.repositories.*;
 import lombok.RequiredArgsConstructor;
 
+import javax.lang.model.SourceVersion;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -14,7 +15,7 @@ public class OperationCreator implements DataCreator {
     private static final int MIN_STEP_DURATION = 1;
     private static final int MIN_OPERATION_STEP_COUNT = 1;
     private static final int MAX_OPERATION_STEP_COUNT = 3;
-    private static final int OPERATION_COUNT = 100;
+    private static final int OPERATION_COUNT = 1000;
     private static final int DATA_TIME_SPAN_HOURS = 1000;
     private final OperationRepository operationRepository;
     private final OperationStatusRepository operationStatusRepository;
@@ -39,15 +40,15 @@ public class OperationCreator implements DataCreator {
 
     }
 
-    private Operation createOperation(OperationResource resource) {
+    private void createOperation(OperationResource resource) {
         LocalDateTime startTime = getRandomStartTime();
         List<OperationStep> steps = createChainedSteps(resource, startTime);
-        String batchNumber = UUID.randomUUID().toString();
+        String batchNumber = UUID.randomUUID().toString().substring(0,7);
         OperationStatus active = operationStatusRepository.findByStatus(Status.ACTIVE).orElseThrow();
         OperationStatus closed = operationStatusRepository.findByStatus(Status.CLOSE).orElseThrow();
         OperationStep lastStep = steps.get(steps.size() - 1);
         LocalDateTime endTime = lastStep.getStop();
-        OperationStatus status = endTime == null ? closed : active;
+        OperationStatus status = endTime == null ? active : closed;
         Operation operation = Operation.builder()
                 .status(status)
                 .batchId(batchNumber)
@@ -55,10 +56,11 @@ public class OperationCreator implements DataCreator {
                 .startTime(startTime)
                 .stopTime(endTime)
                 .build();
-        return operationRepository.save(operation);
+        operationRepository.save(operation);
     }
 
-    private List<OperationStep> createChainedSteps(OperationResource resource, LocalDateTime initialTime) {
+    private List<OperationStep> createChainedSteps(OperationResource resource,
+                                                   LocalDateTime initialTime) {
         List<OperationStep> chainedSteps = new ArrayList<>();
         LocalDateTime startTime = initialTime;
         int stepCount = new Random().nextInt(MAX_OPERATION_STEP_COUNT);
@@ -81,7 +83,9 @@ public class OperationCreator implements DataCreator {
                                               OperationResource resource) {
         int operatorIndex = new Random().nextInt(resource.operators.size());
         int duration = new Random().nextInt(MAX_STEP_DURATION - MIN_STEP_DURATION) + MIN_STEP_DURATION;
-        LocalDateTime stopTime = startTime.plusHours(duration);
+        LocalDateTime stopTime = status.getStatus().equals(Status.END) ?
+                startTime.plusHours(duration) :
+                null;
         Operator operator = resource.operators.get(operatorIndex);
         return OperationStep.builder()
                 .operator(operator)

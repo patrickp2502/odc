@@ -1,7 +1,6 @@
 package com.ppc.odc.data.model;
 
 import lombok.*;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ import java.util.List;
 public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-private long id;
+    private long id;
     private String batchId;
     @OneToMany
     private List<OperationStep> steps;
