@@ -1,38 +1,24 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React from 'react'
+import { DataTableProps, DataRowType } from '../../../shared/types/interfaces'
 
-
-interface HeaderDataKeyMapTemplate {
-    key: string,
-    headerName: string
-}
-
-interface DataTableProps {
-    headerCellNames: string[],
-    dataObject?: Object[]
-    headerKeyTemplate?: HeaderDataKeyMapTemplate[]
-}
-
-const rowConverter = (): Object[] | null => {
-    //todo add converter for mapping header to object key to access only needed datarows
-    return null
-}
 
 const DataTable: React.FC<DataTableProps> = (props) => {
     return (
         <Table>
             <TableHead>
-                {props.headerCellNames.map(headerName => <TableCell>{headerName}</TableCell>)}
+                {props.headerKeyTemplate.map(headerKeyPair =>
+                    <TableCell>{headerKeyPair.headerName}</TableCell>)}
             </TableHead>
             <TableBody>
-                {props.dataObject?.map(dataRow => {
+                {props.data.map((dataRow: DataRowType) => {
                     return (
-                        <TableCell>
-                            {Object.keys(dataRow)}
-                        </TableCell>)
+                        <TableRow>
+                            {props.headerKeyTemplate.map(keyHeaderPair =>
+                                <TableCell>{dataRow[keyHeaderPair.key]}</TableCell>)}
+                        </TableRow>)
                 })
                 }
-
             </TableBody>
         </Table>
     )

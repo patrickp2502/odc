@@ -37,5 +37,4 @@ public class OperationController {
         return operationService.getStatuses();
     }
 
-    
 }

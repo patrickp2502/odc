@@ -23,7 +23,6 @@ export interface Operator {
 export interface OperationStep {
     id: number,
     category: OperationStepCategory
-
     status: OperationStepStatus,
     start: Date,
     stop: Date,
@@ -53,5 +52,17 @@ export interface OperationData {
     status: OperationStatus
 }
 
+export interface DataTableProps {
+    headerKeyTemplate: HeaderKeyPair[],
+    data: Record<string, any>[]
 
+}
 
+export type DataRowType = {
+    [key: string]: undefined
+}
+
+export type HeaderKeyPair = {
+    key: string,
+    headerName: string
+}

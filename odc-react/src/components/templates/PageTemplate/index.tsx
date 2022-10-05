@@ -2,11 +2,12 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
 
-type MainProps = {
+type MainTemplateProps = {
     children: React.ReactNode,
+    header: React.ReactNode
 }
 
-const PageTemplate: React.FC<MainProps> = (props) => {
+const PageTemplate: React.FC<MainTemplateProps> = (props) => {
     return (
         <Grid container
             margin={'auto'}
@@ -16,7 +17,7 @@ const PageTemplate: React.FC<MainProps> = (props) => {
                 minHeight={'50px'}
                 bgcolor={'red'}
                 alignContent='center'>
-                <ResponsiveAppBar />
+                {props.header}
             </Grid>
             <Grid item
                 xs={12}
