@@ -15,21 +15,23 @@ public class CategoryCreator {
 
     public CategoryCreator(OperationCategoryRepository operationCategoryRepository) {
         this.operationCategoryRepository = operationCategoryRepository;
-        initialize();
     }
 
-    private void initialize() {
+    public void initialize() {
 
         Set<OperationCategory> categories = new HashSet<>(
                 Set.of(
                         OperationCategory.builder()
                                 .name("Mischen")
+                                .shortName("M")
                                 .build(),
                         OperationCategory.builder()
                                 .name("maschinelle Behandlung")
+                                .shortName("MB")
                                 .build(),
                         OperationCategory.builder()
                                 .name("Abfüllen")
+                                .shortName("ABF")
                                 .build()
                 )
         );

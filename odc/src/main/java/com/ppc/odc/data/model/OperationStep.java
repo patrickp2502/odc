@@ -13,16 +13,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-public class OperationFeedback {
+public class OperationStep {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    long id;
+    private long id;
     @ManyToOne
-    OperationCategory category;
-    LocalDateTime start;
-    LocalDateTime stop;
-    LocalDateTime duration;
+    private OperationCategory category;
+    @ManyToOne
+    private OperationStepStatus status;
+    private LocalDateTime start;
+    private LocalDateTime stop;
+    private LocalDateTime duration;
     @ManyToOne
     Operator operator;
 

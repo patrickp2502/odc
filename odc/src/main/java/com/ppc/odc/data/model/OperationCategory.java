@@ -1,14 +1,10 @@
 package com.ppc.odc.data.model;
 
-import jdk.jfr.Name;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -16,7 +12,6 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @ToString
-@Table
 @Builder
 public class OperationCategory {
 
@@ -24,11 +19,9 @@ public class OperationCategory {
     @GeneratedValue
     long id;
     String name;
+    String shortName;
 
 
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
+
 }
