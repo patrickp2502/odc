@@ -1,4 +1,4 @@
-import { Card } from '@mui/material'
+import { Card, CircularProgress } from '@mui/material'
 import { useQuery } from 'react-query'
 import PageTemplate from '../../templates/PageTemplate'
 import { getOperations } from '../../../shared/dataProvider/api'
@@ -14,19 +14,17 @@ const OPERATION_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
     { key: "status", headerName: "Status" }
 ]
 
-interface IData extends Record<string, any> {
-    name: "blabla"
-
-}
 
 const Operations = () => {
-    const { data, isFetched } = useQuery<Record<string, any>[]>(['operationsData'], () => getOperations())
+    const { data, isFetched } = useQuery<Record<string, any>[]>(
+        ['operationsData'], () => getOperations())
+
 
     if (!isFetched) {
         return (
             <PageTemplate header={<ResponsiveAppBar />}>
                 <Card>
-                    ... is loading
+                    <CircularProgress />
                 </Card>
             </PageTemplate >
         )
