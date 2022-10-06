@@ -14,6 +14,11 @@ const OPERATION_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
     { key: "status", headerName: "Status" }
 ]
 
+interface IData extends Record<string, any> {
+    name: "blabla"
+
+}
+
 const Operations = () => {
     const { data, isFetched } = useQuery<Record<string, any>[]>(['operationsData'], () => getOperations())
 
@@ -24,7 +29,6 @@ const Operations = () => {
                     ... is loading
                 </Card>
             </PageTemplate >
-
         )
     }
 
@@ -32,7 +36,9 @@ const Operations = () => {
 
     return (
         <OperationPageTemplate header={<ResponsiveAppBar />}>
-            <DataTable data={operations} headerKeyTemplate={OPERATION_HEADER_KEY_TEMPLATE} />
+            <DataTable
+                data={operations}
+                headerKeyTemplate={OPERATION_HEADER_KEY_TEMPLATE} />
         </OperationPageTemplate >
     )
 }

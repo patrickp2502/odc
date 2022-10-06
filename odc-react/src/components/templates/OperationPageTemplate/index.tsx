@@ -20,15 +20,12 @@ const OperationPageTemplate: React.FC<MainTemplateProps> = (props) => {
             </Grid>
             <Grid item
                 xs={12}
-                minHeight={'600px'}
+                maxHeight={'500px'}
                 padding={'2em 2em'}
                 alignContent='center'>
                 <Paper elevation={3}>
                     {props.children}
                 </Paper>
-            </Grid>
-            <Grid item xs={12} minHeight={'100px'} bgcolor={'black'}>
-
             </Grid>
         </Grid>
     )

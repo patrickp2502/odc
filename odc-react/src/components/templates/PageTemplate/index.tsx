@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid } from '@mui/material'
+import { Grid, Paper } from '@mui/material'
 
 type MainTemplateProps = {
     children: React.ReactNode,
@@ -21,11 +21,11 @@ const PageTemplate: React.FC<MainTemplateProps> = (props) => {
             <Grid item
                 xs={12}
                 minHeight={'600px'}
+                padding={'2em 2em'}
                 alignContent='center'>
-                {props.children}
-            </Grid>
-            <Grid item xs={12} minHeight={'100px'} bgcolor={'black'}>
-
+                <Paper elevation={2}>
+                    {props.children}
+                </Paper>
             </Grid>
         </Grid>
     )
