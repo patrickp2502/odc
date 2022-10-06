@@ -42,7 +42,7 @@ export interface OperationStatus {
     status: string
 }
 
-export interface OperationData {
+export interface OperationData extends Record<string, any> {
     id: 0,
     batchId: string,
     steps: OperationStep[],
