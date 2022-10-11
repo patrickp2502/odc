@@ -12,11 +12,12 @@ const OperationDetailsBodyTemplate: React.FC<OperationDetailsBodyTemplateProps> 
         <Grid container
             display={'flex'}>
             <Grid item xs={12}
-                minHeight={'150px'}
                 padding={'10px'}>
                 {props.detailContainer}
             </Grid>
-            <Grid item xs={12}>
+            <Grid item
+                xs={12}
+                padding={"10px"}>
                 {props.stepsContainer}
             </Grid>
         </Grid>

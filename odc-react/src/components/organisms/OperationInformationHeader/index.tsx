@@ -1,10 +1,8 @@
-import { Card, Paper, Typography } from '@mui/material'
 import React from 'react'
 import { OperationData } from '../../../shared/types/interfaces'
 import { Grid } from '@mui/material'
 import { convertToFromatedDateString } from '../../../shared/services/DateTimeConverter'
 import TextWithLabel from '../../molecules/TextWithLabel'
-import { BatchPrediction } from '@mui/icons-material'
 
 interface OperationInformationHeaderProps {
     operationData: OperationData
