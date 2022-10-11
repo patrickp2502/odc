@@ -18,6 +18,7 @@ const OPERATIONSTEPS_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
 
 
 
+
 const OperationDetails: React.FC = () => {
     const operationId: string | undefined = useParams().operationId;
     const {
@@ -42,9 +43,10 @@ const OperationDetails: React.FC = () => {
                         <OperationInformationHeader
                             operationData={operationData} />
                     }
-                    stepsContainer={<DataTable
-                        data={operationData}
-                        headerKeyTemplate= />}
+                    stepsContainer={
+                        <DataTable
+                            data={operationData.steps}
+                            headerKeyTemplate= />}
                 />
             </PageTemplate>
         )

@@ -5,7 +5,6 @@ import com.ppc.odc.data.model.enums.Status;
 import com.ppc.odc.data.repositories.*;
 import lombok.RequiredArgsConstructor;
 
-import javax.lang.model.SourceVersion;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -47,7 +46,7 @@ public class OperationCreator implements DataCreator {
         OperationStatus active = operationStatusRepository.findByStatus(Status.ACTIVE).orElseThrow();
         OperationStatus closed = operationStatusRepository.findByStatus(Status.CLOSE).orElseThrow();
         OperationStep lastStep = steps.get(steps.size() - 1);
-        LocalDateTime endTime = lastStep.getStop();
+        LocalDateTime endTime = lastStep.getStopTime();
         OperationStatus status = endTime == null ? active : closed;
         Operation operation = Operation.builder()
                 .status(status)
@@ -73,7 +72,7 @@ public class OperationCreator implements DataCreator {
                     closed : statusList.get(new Random().nextInt(statusList.size()));
             OperationStep operationStep = createOperationStep(startTime, stepStatus, resource);
             chainedSteps.add(operationStep);
-            startTime = operationStep.getStop();
+            startTime = operationStep.getStopTime();
         }
         return operationStepRepository.saveAll(chainedSteps);
     }
@@ -91,8 +90,8 @@ public class OperationCreator implements DataCreator {
                 .operator(operator)
                 .category(operator.getOperationCategory())
                 .status(status)
-                .start(startTime)
-                .stop(stopTime)
+                .startTime(startTime)
+                .stopTime(stopTime)
                 .build();
     }
 
