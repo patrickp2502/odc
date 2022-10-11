@@ -1,3 +1,5 @@
+import React from "react"
+
 export interface OperationStepCategory {
     id: number,
     name: string,
@@ -24,9 +26,9 @@ export interface OperationStep {
     id: number,
     category: OperationStepCategory
     status: OperationStepStatus,
-    start: Date,
-    stop: Date,
-    duration: Date,
+    start: String,
+    stop: String,
+    duration: String,
     operator: {
         id: 0,
         operationCategory: {
@@ -47,15 +49,15 @@ export interface OperationData extends Record<string, any> {
     batchId: string,
     steps: OperationStep[],
     duration: number,
-    startTime: Date,
-    stopTime: Date,
+    startTime: string,
+    stopTime: string,
     status: OperationStatus
 }
 
 export interface DataTableProps {
     headerKeyTemplate: HeaderKeyPair[],
-    data: Record<string, any>[]
-
+    data: Record<string, any>[],
+    rowComponent?: React.FC
 }
 
 export type DataRowType = {

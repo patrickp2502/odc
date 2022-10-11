@@ -19,7 +19,7 @@ const StyledTableRow = styled(TableRow)({
 })
 
 const StyledTableCell = styled(TableCell)({
-    fontSize: "11px"
+    fontSize: "1em"
 })
 
 
@@ -30,17 +30,18 @@ const DataTable: React.FC<DataTableProps> = (props) => {
         <TableContainer component={Paper} sx={{ maxHeight: "500px" }}>
             <Table stickyHeader>
                 <TableHead>
-                    {props.headerKeyTemplate.map(headerKeyPair =>
-                        <StyledTableHeaderCell>{headerKeyPair.headerName}</StyledTableHeaderCell>)}
+                    <TableRow>
+                        {props.headerKeyTemplate.map(headerKeyPair =>
+                            <StyledTableHeaderCell key={headerKeyPair.headerName}>{headerKeyPair.headerName}</StyledTableHeaderCell>)}
+                    </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.data.map((dataRow: DataRowType) => {
                         return (
-
-                            <StyledTableRow onClick={() => navigate("/operations/" + dataRow.id)}>
+                            <StyledTableRow key={dataRow.id} onClick={() => navigate("/operations/" + dataRow.id)}>
 
                                 {props.headerKeyTemplate.map(keyHeaderPair =>
-                                    <StyledTableCell>{dataRow[keyHeaderPair.key]}</StyledTableCell>)}
+                                    <StyledTableCell key={keyHeaderPair.key}>{dataRow[keyHeaderPair.key]}</StyledTableCell>)}
                             </StyledTableRow>
                         )
                     })

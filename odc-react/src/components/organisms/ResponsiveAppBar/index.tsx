@@ -53,7 +53,7 @@ export const ResponsiveAppBar = () => {
                             display: { xs: 'none', md: 'flex' },
                             fontFamily: 'monospace',
                             fontWeight: 700,
-                            letterSpacing: '.3rem',
+                            letterSpacing: '0.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
@@ -122,7 +122,9 @@ export const ResponsiveAppBar = () => {
                                 onClick={() => handleClickNavButton(page.path)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                {page.name}
+                                <Typography fontSize={'1.5em'}>
+                                    {page.name}
+                                </Typography>
                             </Button>
                         ))}
                     </Box>
