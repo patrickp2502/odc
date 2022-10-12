@@ -48,9 +48,9 @@ class OperationMapperTest {
                 end,
                 status);
 
-        OperationGetDTO dto = mapper.operationToOperationGetDTO(operation);
+        OperationGetDTO resultDto = mapper.operationToOperationGetDTO(operation);
 
-        Assertions.assertEquals(dto, expectedDto);
+        Assertions.assertEquals(expectedDto, resultDto);
 
     }
 }

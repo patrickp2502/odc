@@ -16,7 +16,8 @@ public class Operator {
 
     @Id
     @GeneratedValue
-    long id;
+    private long id;
+    private String name;
     @ManyToOne
     OperationCategory operationCategory;
 

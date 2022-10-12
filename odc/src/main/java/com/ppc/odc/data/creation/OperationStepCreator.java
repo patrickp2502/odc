@@ -47,8 +47,8 @@ public class OperationStepCreator {
         return OperationStep.builder()
                 .operator(operator)
                 .category(operator.getOperationCategory())
-                .start(startDate)
-                .stop(stopDate)
+                .startTime(startDate)
+                .stopTime(stopDate)
                 .build();
 
 

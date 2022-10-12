@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Container, Grid, Paper } from '@mui/material'
+import { Grid, Paper } from '@mui/material'
 
 type MainTemplateProps = {
     children: React.ReactNode,

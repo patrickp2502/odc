@@ -10,15 +10,18 @@ interface SubNavProps {
 //TODO create Function for react
 const SubNav: React.FC<SubNavProps> = () => {
     return (
-        <Grid container display={"flex"} alignItems="center">
-            <Grid item xs={1}
-                display={"flex"}
-                justifyContent={"center"}
+        <Grid container
+            display={'flex'}
+            flexDirection={'row'}
+            justifyContent={"flex-start"}
+            alignItems="center">
+            <Grid item xs={2}
+                alignItems="center"
             >
                 <Fab
                     size="large"
                     sx={{
-                        color: "white",
+                        color: "black",
                         bgcolor: "orange"
                     }}>
                     <AddIcon />

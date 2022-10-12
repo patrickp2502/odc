@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 public class OperationStep {
 
     @Id
@@ -22,8 +21,8 @@ public class OperationStep {
     private OperationCategory category;
     @ManyToOne
     private OperationStepStatus status;
-    private LocalDateTime start;
-    private LocalDateTime stop;
+    private LocalDateTime startTime;
+    private LocalDateTime stopTime;
     private LocalDateTime duration;
     @ManyToOne
     Operator operator;
