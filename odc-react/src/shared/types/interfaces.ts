@@ -67,10 +67,14 @@ export interface OperationData extends Record<string, any> {
     status: OperationStatus
 }
 
-export interface DataTableProps {
-    headerKeyTemplate: HeaderKeyPair[],
-    data: Record<string, any>[],
-    rowComponent?: React.FC
+export interface OperationDataTableProps {
+    data: OperationData[],
+
+}
+
+
+export interface OperationStepTableProps {
+    data: OperationStep[],
 }
 
 export type DataRowType = {

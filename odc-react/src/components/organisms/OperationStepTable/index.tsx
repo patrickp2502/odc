@@ -1,9 +1,15 @@
 import { Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router'
-import { DataTableProps, DataRowType } from '../../../shared/types/interfaces'
+import { HeaderKeyPair, OperationStepTableProps, DataRowType } from '../../../shared/types/interfaces'
 
-
+const OPERATIONSTEPS_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
+    { key: "category", headerName: "Category" },
+    { key: "operatorName", headerName: "Operator" },
+    { key: "startTime", headerName: "Start" },
+    { key: "stopTime", headerName: "Ende" },
+    { key: "status", headerName: "Status" }
+]
 
 const StyledTableHeaderCell = styled(TableCell)({
     backgroundColor: "orange",
@@ -13,8 +19,7 @@ const StyledTableHeaderCell = styled(TableCell)({
 
 const StyledTableRow = styled(TableRow)({
     ":hover": {
-        "background": "lightgrey",
-        "cursor": "pointer"
+        "background": "lightgrey"
     }
 })
 
@@ -23,24 +28,23 @@ const StyledTableCell = styled(TableCell)({
 })
 
 
-const DataTable: React.FC<DataTableProps> = (props) => {
-    const navigate = useNavigate()
+
+const OperationStepTable: React.FC<OperationStepTableProps> = (props) => {
 
     return (
         <TableContainer component={Paper} sx={{ maxHeight: "500px" }}>
             <Table stickyHeader>
                 <TableHead>
                     <TableRow>
-                        {props.headerKeyTemplate.map(headerKeyPair =>
+                        {OPERATIONSTEPS_HEADER_KEY_TEMPLATE.map(headerKeyPair =>
                             <StyledTableHeaderCell key={headerKeyPair.headerName}>{headerKeyPair.headerName}</StyledTableHeaderCell>)}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.data.map((dataRow: DataRowType) => {
                         return (
-                            <StyledTableRow key={dataRow.id} onClick={() => navigate("/operations/" + dataRow.id)}>
-
-                                {props.headerKeyTemplate.map(keyHeaderPair =>
+                            <StyledTableRow key={dataRow.id} >
+                                {OPERATIONSTEPS_HEADER_KEY_TEMPLATE.map(keyHeaderPair =>
                                     <StyledTableCell key={keyHeaderPair.key}>{dataRow[keyHeaderPair.key]}</StyledTableCell>)}
                             </StyledTableRow>
                         )
@@ -52,4 +56,4 @@ const DataTable: React.FC<DataTableProps> = (props) => {
     )
 }
 
-export default DataTable
+export default OperationStepTable

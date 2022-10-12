@@ -6,17 +6,8 @@ import OperationDetailsBodyTemplate from '../../templates/OperationDetailsBodyTe
 import { useQuery } from 'react-query'
 import { getOperation, getOperationSteps } from '../../../shared/dataProvider/api'
 import OperationInformationHeader from '../../organisms/OperationInformationHeader'
-import DataTable from '../../organisms/DataTable'
-import { HeaderKeyPair } from '../../../shared/types/interfaces'
+import OperationStepTable from '../../organisms/OperationStepTable'
 
-
-const OPERATIONSTEPS_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
-    { key: "category", headerName: "Category" },
-    { key: "operatorName", headerName: "Operator" },
-    { key: "startTime", headerName: "Start" },
-    { key: "stopTime", headerName: "Ende" },
-    { key: "status", headerName: "Status" }
-]
 
 const OperationDetails: React.FC = () => {
     const operationId: string | undefined = useParams().operationId;
@@ -47,7 +38,6 @@ const OperationDetails: React.FC = () => {
         )
     }
     if (stepDataFetchIsSuccess && operationDataFetchIsSuccess) {
-
         return (
             <PageTemplate header={<ResponsiveAppBar />}>
                 <OperationDetailsBodyTemplate
@@ -56,9 +46,9 @@ const OperationDetails: React.FC = () => {
                             operationData={operationData} />
                     }
                     stepsContainer={
-                        <DataTable
+                        <OperationStepTable
                             data={stepData}
-                            headerKeyTemplate={OPERATIONSTEPS_HEADER_KEY_TEMPLATE} />}
+                        />}
                 />
             </PageTemplate>
         )

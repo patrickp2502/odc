@@ -2,21 +2,14 @@ import { Card, CircularProgress } from '@mui/material'
 import { useQuery } from 'react-query'
 import PageTemplate from '../../templates/PageTemplate'
 import { getOperations } from '../../../shared/dataProvider/api'
-import { HeaderKeyPair } from '../../../shared/types/interfaces'
 import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
-import DataTable from '../../organisms/DataTable'
 import OperationPageTemplate from '../../templates/OperationPageTemplate'
-
-const OPERATION_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
-    { key: "batchId", headerName: "Batch" },
-    { key: "startTime", headerName: "Start" },
-    { key: "stopTime", headerName: "Ende" },
-    { key: "status", headerName: "Status" }
-]
+import OperationDataTable from '../../organisms/OperationDataTable'
+import { OperationData } from '../../../shared/types/interfaces'
 
 
 const Operations = () => {
-    const { data, isFetched } = useQuery<Record<string, any>[]>(
+    const { data, isFetched } = useQuery<OperationData[]>(
         ['operationsData'], () => getOperations())
 
 
@@ -34,9 +27,9 @@ const Operations = () => {
 
     return (
         <OperationPageTemplate header={<ResponsiveAppBar />}>
-            <DataTable
+            <OperationDataTable
                 data={operations}
-                headerKeyTemplate={OPERATION_HEADER_KEY_TEMPLATE} />
+            />
         </OperationPageTemplate >
     )
 }
