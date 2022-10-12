@@ -3,12 +3,15 @@ package com.ppc.odc.service;
 import com.ppc.odc.data.model.Operation;
 import com.ppc.odc.data.model.OperationStatus;
 import com.ppc.odc.data.model.OperationStep;
+import com.ppc.odc.data.model.Operator;
+import com.ppc.odc.data.model.enums.Status;
 import com.ppc.odc.data.repositories.OperationRepository;
 import com.ppc.odc.data.repositories.OperationStatusRepository;
+import com.ppc.odc.data.repositories.OperatorRepository;
+import com.ppc.odc.mapstruct.dtos.InformationDTO;
 import com.ppc.odc.mapstruct.dtos.OperationGetDTO;
 import com.ppc.odc.mapstruct.dtos.OperationStepGetDTO;
 import com.ppc.odc.mapstruct.mappers.OperationMapper;
-import com.ppc.odc.mapstruct.mappers.OperationMapperImpl;
 import com.ppc.odc.mapstruct.mappers.OperationStepMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ public class OperationService {
     private final OperationStatusRepository operationStatusRepository;
     private final OperationMapper operationMapper;
     private final OperationStepMapper operationStepMapper;
+    private final OperatorRepository operatorRepository;
 
     public List<Operation> getAll() {
         return operationRepository.findAll();
@@ -36,7 +40,6 @@ public class OperationService {
                 .map(operationMapper::operationToOperationGetDTO)
                 .collect(Collectors.toList());
     }
-
 
     public Operation getOperationBy(long id) {
         return operationRepository.findById(id)
@@ -58,6 +61,17 @@ public class OperationService {
     public List<OperationStatus> getStatuses() {
         return operationStatusRepository.findAll();
     }
+
+    public InformationDTO getInformation() {
+        List<String> operators = operatorRepository.getAllOperatorNames();
+        OperationStatus status = operationStatusRepository.findByStatus(Status.ACTIVE)
+                .orElseThrow(() -> new EntityNotFoundException("status not found!"));
+        List<String> activeOperationIDs = operationRepository.getAllOperationIDsByStatus(status);
+        return new InformationDTO(operators, activeOperationIDs);
+    }
+
+
+
 
 
 

@@ -7,6 +7,7 @@ import { useQuery } from 'react-query'
 import { getOperation, getOperationSteps } from '../../../shared/dataProvider/api'
 import OperationInformationHeader from '../../organisms/OperationInformationHeader'
 import OperationStepTable from '../../organisms/OperationStepTable'
+import AddStepDialog from '../../organisms/AddStepDialog'
 
 
 const OperationDetails: React.FC = () => {
@@ -50,6 +51,7 @@ const OperationDetails: React.FC = () => {
                             data={stepData}
                         />}
                 />
+                <AddStepDialog open />
             </PageTemplate>
         )
     }
