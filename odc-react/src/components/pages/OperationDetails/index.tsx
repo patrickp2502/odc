@@ -51,7 +51,10 @@ const OperationDetails: React.FC = () => {
                             data={stepData}
                         />}
                 />
-                <AddStepDialog open />
+                <AddStepDialog
+                    open
+                    defaultBatchId={operationData.batchId}
+                />
             </PageTemplate>
         )
     }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Configuration
 public class DataCreatorConfiguration {
-    public static int OPERATOR_COUNT = 30;
+    public static int OPERATOR_COUNT =10;
     public static int FEEDBACK_COUNT = 100;
     public static double FULLFILLED_FEEDBACK_FACTOR = 0.2;
     public static LocalDateTime FEEDBACK_STARTING_DATE = LocalDateTime.now();
