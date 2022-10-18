@@ -4,10 +4,13 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAddStepFormSchema from '../../../shared/customHooks/validation/useAddStepFormSchema';
+import { useMutation } from 'react-query';
+import { postOperationStep } from '../../../shared/dataProvider/api';
 
 interface AddStepDialogProps {
     open: boolean,
-    defaultBatchId: string
+    defaultBatchId: string,
+    onClose: any
 }
 
 type AddStepFormInputs = {
@@ -16,8 +19,6 @@ type AddStepFormInputs = {
     timeStamp: Date
 }
 
-//TODO add form for adding a step
-//TODO 
 const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
 
     const validationSchema = useAddStepFormSchema();
@@ -30,15 +31,19 @@ const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
             }
         });
 
+    const submitOperationStep = (data: AddStepFormInputs) => {
+        console.log(data);
+    }
+
+
     return (
-        <Dialog open>
+        <Dialog
+            onClose={props.onClose}
+            open={props.open}>
             <DialogTitle>Add Step</DialogTitle>
             <DialogContent>Enter Valid Data</DialogContent>
             <Container sx={{ padding: "10px" }}>
-                <form onSubmit={handleSubmit(
-                    (data) => alert(data),
-                    (error) => console.log("error:", error)
-                )}>
+                <form onSubmit={handleSubmit(submitOperationStep)}>
                     <Grid container
                         display={"flex"}
                         flexDirection={"column"}
@@ -59,11 +64,6 @@ const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
                                 }
                             />
                         </Grid>
-
-
-
-
-
                         <Grid item>
                             <Controller
                                 control={control}

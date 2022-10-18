@@ -1,3 +1,5 @@
+import { url } from "inspector";
+import { string } from "yup";
 import { OperationData, OperationInformation, OperationStep } from "../types/interfaces";
 
 const BASE_URL: string = 'http://localhost:8080/api/v1'
@@ -17,6 +19,30 @@ export const getOperationSteps = async (operationId: string | undefined) => {
 
 export const getOperationInformation = async (): Promise<OperationInformation> => {
     return await get<Promise<OperationInformation>>(`${API_URL_OPERATIONS}/information`);
+}
+
+type AddOperationStepRequest = {
+    operationId: number,
+    timeStamp: Date,
+    operatorName: String
+}
+
+export const postOperationStep = async (payload: AddOperationStepRequest) => {
+    const operationId = payload.operationId;
+    const url = `${API_URL_OPERATIONS}/${operationId}/steps`
+    await post(url, payload);
+}
+
+const post = async <T>(url: string, payload: T): Promise<any> => {
+    return await fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(payload)
+    })
+
 }
 
 
