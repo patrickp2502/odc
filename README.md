@@ -19,7 +19,7 @@ spring-boot (jpa, web) backend
 - messaging (kafka vs rabbitmq)
 - nosql db (mongodb)
 - production planning feature (service)
-- microservice ecosystem
+- microservice ecosystem (running on kubernetes)
 - cloud ready
 - handhelds 
 
