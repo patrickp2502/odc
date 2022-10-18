@@ -32,6 +32,10 @@ export interface OperationStep extends Record<string, any> {
     status: string
 }
 
+export interface OperationInformation {
+    operatorNames: string[],
+    activeBatchIds: string[]
+}
 
 
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEvent, useState } from 'react'
 import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
 import PageTemplate from '../../templates/PageTemplate'
 import { useParams } from 'react-router-dom'
@@ -11,6 +11,8 @@ import AddStepDialog from '../../organisms/AddStepDialog'
 
 
 const OperationDetails: React.FC = () => {
+
+    const [showDialog, setShowDialog] = useState<boolean>(false)
     const operationId: string | undefined = useParams().operationId;
     const {
         data: operationData,
@@ -39,19 +41,30 @@ const OperationDetails: React.FC = () => {
         )
     }
     if (stepDataFetchIsSuccess && operationDataFetchIsSuccess) {
+        const handleOnClickAddButton = (e: MouseEvent<HTMLButtonElement>) => {
+            setShowDialog(true);
+        }
+
         return (
             <PageTemplate header={<ResponsiveAppBar />}>
                 <OperationDetailsBodyTemplate
                     detailContainer={
                         <OperationInformationHeader
-                            operationData={operationData} />
+                            operationData={operationData}
+                            onClick={handleOnClickAddButton}
+
+                        />
                     }
                     stepsContainer={
                         <OperationStepTable
                             data={stepData}
                         />}
                 />
-                <AddStepDialog open />
+                <AddStepDialog
+                    open={showDialog}
+                    onClose={() => setShowDialog(false)}
+                    defaultBatchId={operationData.batchId}
+                />
             </PageTemplate>
         )
     }

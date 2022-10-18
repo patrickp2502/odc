@@ -9,8 +9,10 @@ interface OperationDetailsBodyTemplateProps {
 
 const OperationDetailsBodyTemplate: React.FC<OperationDetailsBodyTemplateProps> = (props) => {
     return (
+
         <Grid container
             display={'flex'}>
+
             <Grid item xs={12}
                 padding={'10px'}>
                 {props.detailContainer}

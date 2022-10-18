@@ -47,7 +47,8 @@ public class OperationCreator implements DataCreator {
         OperationStatus closed = operationStatusRepository.findByStatus(Status.CLOSE).orElseThrow();
         OperationStep lastStep = steps.get(steps.size() - 1);
         LocalDateTime endTime = lastStep.getStopTime();
-        OperationStatus status = endTime == null ? active : closed;
+        OperationStatus status = active;
+        //OperationStatus status = endTime == null ? active : closed; //change for enabling random closed operations
         Operation operation = Operation.builder()
                 .status(status)
                 .batchId(batchNumber)
