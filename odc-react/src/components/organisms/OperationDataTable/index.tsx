@@ -1,7 +1,7 @@
 import { Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router'
-import { OperationDataTableProps, DataRowType, HeaderKeyPair } from '../../../shared/types/interfaces'
+import { OperationDataTableProps, DataRowType, HeaderKeyPair } from '../../../shared/types/types'
 
 const OPERATION_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
     { key: "batchId", headerName: "Batch" },

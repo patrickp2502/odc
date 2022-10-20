@@ -1,7 +1,11 @@
 package com.ppc.odc.service;
 
 import com.ppc.odc.data.model.OperationStep;
+import com.ppc.odc.data.model.OperationStepStatus;
+import com.ppc.odc.data.model.enums.Status;
 import com.ppc.odc.data.repositories.OperationStepRepository;
+import com.ppc.odc.data.repositories.OperationStepStatusRepository;
+import com.ppc.odc.mapstruct.dtos.AddOperationInformationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 @Service
 public class OperationStepService {
 
+    private final OperationStepStatusRepository operationStepStatusRepository;
     private final OperationStepRepository operationStepRepository;
 
     public OperationStep getOperationStepBy(long id) {
@@ -26,7 +31,11 @@ public class OperationStepService {
         operationStepRepository.save(operationStep);
     }
 
-    public OperationStep createOperationStep(OperationStep newOperationStep) {
-        return operationStepRepository.save(newOperationStep);
+
+    public OperationStepStatus getOperationStepStatusBy(Status status) {
+        return operationStepStatusRepository.findByStatus(status)
+                .orElseThrow(() -> new EntityNotFoundException("OperationStatus not found by Status: "+status));
     }
+
+
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { OperationData } from '../../../shared/types/interfaces'
+import { OperationData } from '../../../shared/types/types'
 import { Fab, Grid } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import { convertToFromatedDateString } from '../../../shared/services/DateTimeConverter'

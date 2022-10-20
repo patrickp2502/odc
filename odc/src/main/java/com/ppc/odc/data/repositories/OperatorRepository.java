@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OperatorRepository extends JpaRepository<Operator, Long> {
 
     @Query("select distinct o.name from Operator o order by o.name ASC ")
     List<String> getAllOperatorNames();
 
+    Optional<Operator> findByName(String operatorName);
 }

@@ -5,7 +5,7 @@ import { getOperations } from '../../../shared/dataProvider/api'
 import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
 import OperationPageTemplate from '../../templates/OperationPageTemplate'
 import OperationDataTable from '../../organisms/OperationDataTable'
-import { OperationData } from '../../../shared/types/interfaces'
+import { OperationData } from '../../../shared/types/types'
 
 
 const Operations = () => {

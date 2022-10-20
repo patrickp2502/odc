@@ -4,41 +4,44 @@ import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAddStepFormSchema from '../../../shared/customHooks/validation/useAddStepFormSchema';
-import { useMutation } from 'react-query';
-import { postOperationStep } from '../../../shared/dataProvider/api';
+import { AddStepInformation } from '../../../shared/types/types';
+
 
 interface AddStepDialogProps {
     open: boolean,
     defaultBatchId: string,
-    onClose: any
-}
+    onClose: any,
+    onSubmit: (data: AddStepInformation) => void
 
-type AddStepFormInputs = {
-    operatorName: string,
-    batchId: string,
-    timeStamp: Date
 }
 
 const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
 
     const validationSchema = useAddStepFormSchema();
 
-    const { handleSubmit, formState, control } = useForm<AddStepFormInputs>(
+    const { handleSubmit, formState, control, reset } = useForm<AddStepInformation>(
         {
             resolver: validationSchema ? yupResolver(validationSchema) : undefined,
             defaultValues: {
-                timeStamp: new Date()
+                timeStamp: new Date(),
+                operatorName: "",
+                batchId: props.defaultBatchId ? props.defaultBatchId : ""
             }
         });
 
-    const submitOperationStep = (data: AddStepFormInputs) => {
-        console.log(data);
+    const submitOperationStep = (data: AddStepInformation) => {
+        props.onSubmit(data)
+
     }
 
+    const handleOnClose = () => {
+        reset();
+        props.onClose();
+    }
 
     return (
         <Dialog
-            onClose={props.onClose}
+            onClose={handleOnClose}
             open={props.open}>
             <DialogTitle>Add Step</DialogTitle>
             <DialogContent>Enter Valid Data</DialogContent>
@@ -58,7 +61,6 @@ const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
                                         label='Operator'
                                         error={!!formState.errors.operatorName}
                                         helperText={formState.errors.operatorName?.message}
-                                        defaultValue={""}
                                     />
 
                                 }
@@ -72,7 +74,6 @@ const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
                                     <TextField
                                         {...field}
                                         label="BatchNr"
-                                        defaultValue={props.defaultBatchId}
                                         error={!!formState.errors.batchId}
                                         helperText={formState.errors.batchId?.message}
                                     />
