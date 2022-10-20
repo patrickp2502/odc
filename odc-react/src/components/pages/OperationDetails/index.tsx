@@ -3,17 +3,18 @@ import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
 import PageTemplate from '../../templates/PageTemplate'
 import { useParams } from 'react-router-dom'
 import OperationDetailsBodyTemplate from '../../templates/OperationDetailsBodyTemplate'
-import { useQuery } from 'react-query'
-import { getOperation, getOperationSteps } from '../../../shared/dataProvider/api'
+import { useMutation, useQuery } from 'react-query'
+import { getOperation, getOperationSteps, postOperationStep } from '../../../shared/dataProvider/api'
 import OperationInformationHeader from '../../organisms/OperationInformationHeader'
 import OperationStepTable from '../../organisms/OperationStepTable'
 import AddStepDialog from '../../organisms/AddStepDialog'
+import { AddStepInformation } from '../../../shared/types/types'
 
 
 const OperationDetails: React.FC = () => {
 
     const [showDialog, setShowDialog] = useState<boolean>(false)
-    const operationId: string | undefined = useParams().operationId;
+    const operationId = useParams().operationId;
     const {
         data: operationData,
         isFetched: operationDataIsFetched,
@@ -32,6 +33,8 @@ const OperationDetails: React.FC = () => {
         () => getOperationSteps(operationId))
 
 
+    const mutation = useMutation((payload: AddStepInformation) => postOperationStep(payload, operationId))
+
     if (!operationDataIsFetched ||
         operationDataIsIdle ||
         !stepDataIsFetched ||
@@ -44,6 +47,12 @@ const OperationDetails: React.FC = () => {
         const handleOnClickAddButton = (e: MouseEvent<HTMLButtonElement>) => {
             setShowDialog(true);
         }
+
+        const handleSubmit = (data: any) => {
+            mutation.mutate(data);
+
+        }
+
 
         return (
             <PageTemplate header={<ResponsiveAppBar />}>
@@ -64,6 +73,7 @@ const OperationDetails: React.FC = () => {
                     open={showDialog}
                     onClose={() => setShowDialog(false)}
                     defaultBatchId={operationData.batchId}
+                    onSubmit={handleSubmit}
                 />
             </PageTemplate>
         )

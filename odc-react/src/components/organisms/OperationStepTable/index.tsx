@@ -1,7 +1,7 @@
 import { Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router'
-import { HeaderKeyPair, OperationStepTableProps, DataRowType } from '../../../shared/types/interfaces'
+import { HeaderKeyPair, OperationStepTableProps, DataRowType } from '../../../shared/types/types'
 
 const OPERATIONSTEPS_HEADER_KEY_TEMPLATE: HeaderKeyPair[] = [
     { key: "category", headerName: "Category" },

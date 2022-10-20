@@ -18,8 +18,6 @@ const useAddStepFormSchema = (): undefined | OptionalObjectSchema<ObjectShape, A
                 'batchId',
                 'not a valid active batchId',
                 (value) => {
-                    console.log("value batchId = ", value)
-                    console.log("information is", information.activeBatchIds)
                     return value && information.activeBatchIds ? information.activeBatchIds.includes(value) : false;
                 })
         })

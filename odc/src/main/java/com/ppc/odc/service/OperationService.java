@@ -7,6 +7,7 @@ import com.ppc.odc.data.model.Operator;
 import com.ppc.odc.data.model.enums.Status;
 import com.ppc.odc.data.repositories.OperationRepository;
 import com.ppc.odc.data.repositories.OperationStatusRepository;
+import com.ppc.odc.data.repositories.OperationStepRepository;
 import com.ppc.odc.data.repositories.OperatorRepository;
 import com.ppc.odc.mapstruct.dtos.InformationDTO;
 import com.ppc.odc.mapstruct.dtos.OperationGetDTO;
@@ -29,6 +30,7 @@ public class OperationService {
     private final OperationMapper operationMapper;
     private final OperationStepMapper operationStepMapper;
     private final OperatorRepository operatorRepository;
+    private final OperationStepRepository operationStepRepository;
 
     public List<Operation> getAll() {
         return operationRepository.findAll();
@@ -55,6 +57,14 @@ public class OperationService {
         return getOperationSteps(id).stream()
                 .map(operationStepMapper::operationStepToOperationStepGetDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void addNewStepToOperation(long operationId, OperationStep newStep) {
+        Operation operation = getOperationBy(operationId);
+        OperationStep operationStep = operationStepRepository.save(newStep);
+        operation.getSteps().add(operationStep);
+        operationRepository.save(operation);
+
     }
 
 
