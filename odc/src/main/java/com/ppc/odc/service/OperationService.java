@@ -43,7 +43,14 @@ public class OperationService {
                 .collect(Collectors.toList());
     }
 
-    public Operation getOperationBy(long id) {
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws EntityNotFoundException handled by RestResponseEntityExceptionHandler
+     */
+    public Operation getOperationBy(long id) throws EntityNotFoundException {
         return operationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("operation not found by id = " + id));
     }
