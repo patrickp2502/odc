@@ -43,7 +43,6 @@ public class OperationService {
                 .collect(Collectors.toList());
     }
 
-
     /**
      *
      * @param id
@@ -66,13 +65,19 @@ public class OperationService {
                 .collect(Collectors.toList());
     }
 
-    public void addNewStepToOperation(long operationId, OperationStep newStep) {
-        Operation operation = getOperationBy(operationId);
+    public void addNewStepToOperation(Operation operation, OperationStep newStep) {
         OperationStep operationStep = operationStepRepository.save(newStep);
         operation.getSteps().add(operationStep);
         operationRepository.save(operation);
+    }
+
+    /**
+     * validates the
+     */
+    public void processStepInformation() {
 
     }
+
 
 
     public List<OperationStatus> getStatuses() {
