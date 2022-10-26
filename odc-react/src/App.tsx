@@ -19,7 +19,7 @@ const App: React.FC = () => {
         <QueryClientProvider client={client}>
           <BrowserRouter>
             <Routes>
-              <Route path='/' element={<Steps />} />
+              <Route path='/' element={<Operations />} />
               <Route path='/steps' element={<Steps />} />
               <Route path='/operations' element={<Operations />} />
               <Route path='/overview' element={<Overview />} />

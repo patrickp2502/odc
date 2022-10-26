@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTitle, Container, TextField, Button, Grid } from '@mui/material'
 import { DateTimePicker } from '@mui/x-date-pickers';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAddStepFormSchema from '../../../shared/customHooks/validation/useAddStepFormSchema';
@@ -18,7 +18,6 @@ interface AddStepDialogProps {
 const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
 
     const validationSchema = useAddStepFormSchema();
-
     const { handleSubmit, formState, control, reset } = useForm<AddStepInformation>(
         {
             resolver: validationSchema ? yupResolver(validationSchema) : undefined,
@@ -30,8 +29,9 @@ const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
         });
 
     const submitOperationStep = (data: AddStepInformation) => {
+        data.timeStamp = new Date();
         props.onSubmit(data)
-
+        reset();
     }
 
     const handleOnClose = () => {
