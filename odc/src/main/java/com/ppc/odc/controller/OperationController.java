@@ -43,6 +43,7 @@ public class OperationController {
     public ResponseEntity<Void> addNewCollectedInformation(@PathVariable long id,
                                                            @RequestBody AddOperationInformationRequest request) {
         log.info(request.toString()+id);
+        operationService.processStepInformationRequest(id, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

@@ -1,26 +1,28 @@
 package com.ppc.odc.service;
 
-import com.ppc.odc.data.model.Operation;
-import com.ppc.odc.data.model.OperationStatus;
-import com.ppc.odc.data.model.OperationStep;
-import com.ppc.odc.data.model.Operator;
+import com.ppc.odc.data.model.*;
 import com.ppc.odc.data.model.enums.Status;
 import com.ppc.odc.data.repositories.OperationRepository;
 import com.ppc.odc.data.repositories.OperationStatusRepository;
 import com.ppc.odc.data.repositories.OperationStepRepository;
 import com.ppc.odc.data.repositories.OperatorRepository;
+import com.ppc.odc.mapstruct.dtos.AddOperationInformationRequest;
 import com.ppc.odc.mapstruct.dtos.InformationDTO;
 import com.ppc.odc.mapstruct.dtos.OperationGetDTO;
 import com.ppc.odc.mapstruct.dtos.OperationStepGetDTO;
 import com.ppc.odc.mapstruct.mappers.OperationMapper;
 import com.ppc.odc.mapstruct.mappers.OperationStepMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class OperationService {
@@ -30,6 +32,7 @@ public class OperationService {
     private final OperationMapper operationMapper;
     private final OperationStepMapper operationStepMapper;
     private final OperatorRepository operatorRepository;
+    private final OperationStepService operationStepService;
     private final OperationStepRepository operationStepRepository;
 
     public List<Operation> getAll() {
@@ -71,13 +74,6 @@ public class OperationService {
         operationRepository.save(operation);
     }
 
-    /**
-     * validates the
-     */
-    public void processStepInformation() {
-
-    }
-
 
 
     public List<OperationStatus> getStatuses() {
@@ -92,6 +88,58 @@ public class OperationService {
         return new InformationDTO(operators, activeOperationIDs);
     }
 
+    /**
+     * validates the
+     */
+    public void processStepInformationRequest(long operationId, AddOperationInformationRequest request) {
+        Operation operation = getOperationBy(operationId);
+        String operatorName = request.operatorName();
+        Operator operator = operatorRepository.findByName(operatorName)
+                .orElseThrow(() -> new EntityNotFoundException("Operator not found by name "+ operatorName));
+        processOperationSteps(operation, operator, request.timeStamp());
+    }
+
+    public void processOperationSteps(Operation operation,
+                                      Operator operator,
+                                      LocalDateTime timeStamp) {
+        log.info("processing steps");
+        OperationCategory collectedCategory = operator.getOperationCategory();
+        Optional<OperationStep> optionalLatestStep = getLatestOperationStepOf(operation);
+
+
+        if (needOfNewOperationStep(optionalLatestStep, collectedCategory)) {
+            OperationStep newStep = operationStepService.createNewOperationStep(operator, timeStamp);
+            log.info("newStep created");
+            addNewStepToOperation(operation, newStep);
+        }
+
+        if (needOfStepUpdate(optionalLatestStep)) {
+            log.info("update step infromations");
+            operationStepService.endOperationStep(optionalLatestStep.get(), timeStamp);
+        }
+
+    }
+    private boolean needOfStepUpdate(Optional<OperationStep> optionalLatestStep) {
+        return optionalLatestStep.isPresent() &&
+                optionalLatestStep.get().getStopTime() == null;
+    }
+
+    private boolean needOfNewOperationStep(Optional<OperationStep> optionalLatestStep,
+                                           OperationCategory collectedCategory) {
+        return optionalLatestStep.isEmpty() ||
+                optionalLatestStep.get().getStopTime() != null ||
+                !optionalLatestStep.get().getCategory().equals(collectedCategory);
+    }
+
+    private Optional<OperationStep> getLatestOperationStepOf(Operation operation) {
+        List<OperationStep> steps = operation.getSteps();
+        if (steps.isEmpty()) {
+            return Optional.empty();
+        }
+        int lastIndex = steps.size() - 1;
+        OperationStep latestStep = operation.getSteps().get(lastIndex);
+        return Optional.of(latestStep);
+    }
 
 
 

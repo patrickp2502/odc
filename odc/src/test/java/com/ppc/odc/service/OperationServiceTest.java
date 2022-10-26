@@ -4,6 +4,12 @@ import com.ppc.odc.data.model.Operation;
 import com.ppc.odc.data.model.OperationCategory;
 import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.data.model.Operator;
+import com.ppc.odc.data.repositories.OperationRepository;
+import com.ppc.odc.data.repositories.OperationStatusRepository;
+import com.ppc.odc.data.repositories.OperationStepRepository;
+import com.ppc.odc.data.repositories.OperatorRepository;
+import com.ppc.odc.mapstruct.mappers.OperationMapper;
+import com.ppc.odc.mapstruct.mappers.OperationStepMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,19 +17,30 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class OperationStepProcessorTest {
+class OperationServiceTest {
 
     @Mock
     private OperationStepService operationStepService;
     @Mock
+    private OperationRepository operationRepository;
+    @Mock
+    private OperationStatusRepository operationStatusRepository;
+    @Mock
+    private OperationMapper operationMapper;
+    @Mock
+    private OperationStepMapper operationStepMapper;
+    @Mock
+    private OperatorRepository operatorRepository;
+    @Mock
+    private OperationStepRepository operationStepRepository;
     private OperationService operationService;
-    private OperationStepProcessor operationStepProcessor;
     private OperationCategory catA;
     private OperationCategory catC;
     private Operator operatorA;
@@ -34,9 +51,14 @@ class OperationStepProcessorTest {
 
     @BeforeEach
     void init() {
-        operationStepProcessor = new OperationStepProcessor(
-                operationStepService,
-                operationService);
+        operationService = new OperationService(
+                 operationRepository,
+                 operationStatusRepository,
+                 operationMapper,
+                 operationStepMapper,
+                 operatorRepository,
+                 operationStepService,
+                 operationStepRepository);
     }
 
     @BeforeEach
@@ -71,13 +93,13 @@ class OperationStepProcessorTest {
                 .category(operatorA.getOperationCategory())
                 .build();
         Operation operation = Operation.builder()
-                .steps(List.of(operationStep))
+                .steps(new ArrayList<>(List.of(operationStep)))
                 .batchId("test")
                 .build();
 
 
         //process
-        operationStepProcessor.processOperationSteps(operation, operatorA, timeStamp);
+        operationService.processOperationSteps(operation, operatorA, timeStamp);
 
         //assert
         verify(operationStepService)
@@ -88,11 +110,11 @@ class OperationStepProcessorTest {
     void OperationHasEmptyStepsCreatesNewStep() {
         Operation operation = Operation.builder()
                 .batchId("test")
-                .steps(Collections.emptyList())
+                .steps(new ArrayList<>())
                 .build();
 
         //process
-        operationStepProcessor.processOperationSteps(operation, operatorA, timeStamp);
+        operationService.processOperationSteps(operation, operatorA, timeStamp);
 
         //assert
         verify(operationStepService).createNewOperationStep(operatorA, timeStamp);
@@ -111,12 +133,12 @@ class OperationStepProcessorTest {
 
         Operation operation = Operation.builder()
                 .batchId("test")
-                .steps(List.of(activeStep))
+                .steps(new ArrayList<>(List.of(activeStep)))
                 .build();
 
 
         //process
-        operationStepProcessor.processOperationSteps(operation, operatorC, timeStamp);
+        operationService.processOperationSteps(operation, operatorC, timeStamp);
 
         //assert
         verify(operationStepService).createNewOperationStep(operatorC, timeStamp);
