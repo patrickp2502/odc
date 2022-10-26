@@ -12,6 +12,7 @@ import javax.persistence.*;
 @ToString
 @Table
 @Builder
+@EqualsAndHashCode
 public class Operator {
 
     @Id

@@ -15,6 +15,8 @@ import javax.persistence.Id;
 @Setter
 @Entity
 @Builder
+@EqualsAndHashCode
+@ToString
 public class OperationStepStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

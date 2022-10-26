@@ -1,7 +1,9 @@
 package com.ppc.odc.service;
 
+import com.ppc.odc.data.model.OperationCategory;
 import com.ppc.odc.data.model.OperationStep;
 import com.ppc.odc.data.model.OperationStepStatus;
+import com.ppc.odc.data.model.Operator;
 import com.ppc.odc.data.model.enums.Status;
 import com.ppc.odc.data.repositories.OperationStepRepository;
 import com.ppc.odc.data.repositories.OperationStepStatusRepository;
@@ -10,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +40,28 @@ public class OperationStepService {
         return operationStepStatusRepository.findByStatus(status)
                 .orElseThrow(() -> new EntityNotFoundException("OperationStatus not found by Status: "+status));
     }
+
+
+    public OperationStep createNewOperationStep(Operator operator, LocalDateTime timeStamp) {
+        OperationCategory category = operator.getOperationCategory();
+        OperationStepStatus operationStepStatus = getOperationStepStatusBy(Status.ACTIVE);
+        OperationStep step = OperationStep.builder()
+                .startTime(timeStamp)
+                .operator(operator)
+                .category(category)
+                .status(operationStepStatus)
+                .build();
+        return operationStepRepository.save(step);
+    }
+
+    public void endOperationStep(OperationStep step, LocalDateTime timeStamp) {
+       OperationStepStatus end = operationStepStatusRepository.findByStatus(Status.END)
+               .orElseThrow(() -> new EntityNotFoundException("Status not found"));
+        step.setStatus(end);
+        step.setStopTime(timeStamp);
+        updateOperationStep(step.getId(), step);
+    }
+
 
 
 }

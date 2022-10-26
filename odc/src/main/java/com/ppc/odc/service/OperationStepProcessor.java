@@ -1,8 +1,11 @@
 package com.ppc.odc.service;
 
-import com.ppc.odc.data.model.*;
-import com.ppc.odc.data.model.enums.Status;
+import com.ppc.odc.data.model.Operation;
+import com.ppc.odc.data.model.OperationCategory;
+import com.ppc.odc.data.model.OperationStep;
+import com.ppc.odc.data.model.Operator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,6 +14,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OperationStepProcessor {
 
     private final OperationStepService operationStepService;
@@ -20,31 +24,31 @@ public class OperationStepProcessor {
     public void processOperationSteps(Operation operation,
                                       Operator operator,
                                       LocalDateTime timeStamp) {
-        OperationCategory category = operator.getOperationCategory();
+        OperationCategory collectedCategory = operator.getOperationCategory();
         Optional<OperationStep> optionalLatestStep = getLatestOperationStepOf(operation);
-//todo rework needOfNewOperationStep -> also need if category is not the same -> close last, open new one or update
-        if (needOfNewOperationStep(operation, optionalLatestStep)) {
-            OperationStep newStep = createNewOperationStep(operator, timeStamp, category);
+
+
+        if (needOfNewOperationStep(optionalLatestStep, collectedCategory)) {
+            OperationStep newStep = operationStepService.createNewOperationStep(operator, timeStamp);
+            log.info("newStep created");
             operationService.addNewStepToOperation(operation, newStep);
-            return;
         }
-        OperationStep latestStep = optionalLatestStep.get();
-        OperationCategory currentCategory = latestStep.getCategory();
+
+        if (needOfStepUpdate(optionalLatestStep)) {
+            operationStepService.endOperationStep(optionalLatestStep.get(), timeStamp);
+        }
+
+    }
+    private boolean needOfStepUpdate(Optional<OperationStep> optionalLatestStep) {
+        return optionalLatestStep.isPresent() &&
+                optionalLatestStep.get().getStopTime() == null;
     }
 
-    private OperationStep createNewOperationStep(Operator operator, LocalDateTime timeStamp, OperationCategory category) {
-        OperationStepStatus operationStepStatus = operationStepService.getOperationStepStatusBy(Status.ACTIVE);
-        return OperationStep.builder()
-                .startTime(timeStamp)
-                .operator(operator)
-                .category(category)
-                .status(operationStepStatus)
-                .build();
-    }
-
-    private boolean needOfNewOperationStep(Operation operation, Optional<OperationStep> optionalLatestStep) {
+    private boolean needOfNewOperationStep(Optional<OperationStep> optionalLatestStep,
+                                           OperationCategory collectedCategory) {
         return optionalLatestStep.isEmpty() ||
-                getLatestOperationStepOf(operation).get().getStopTime() != null;
+                optionalLatestStep.get().getStopTime() != null ||
+                !optionalLatestStep.get().getCategory().equals(collectedCategory);
     }
 
     private Optional<OperationStep> getLatestOperationStepOf(Operation operation) {
