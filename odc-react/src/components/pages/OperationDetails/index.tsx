@@ -57,8 +57,6 @@ const OperationDetails: React.FC = () => {
         }
 
         const handleSubmit = (data: any) => {
-            console.log(Date.now());
-            console.log("UTC String ", new Date().toUTCString());
             mutation.mutate(data);
             setShowDialog(false);
 

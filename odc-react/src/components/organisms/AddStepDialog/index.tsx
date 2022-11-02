@@ -4,8 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import useAddStepFormSchema from '../../../shared/customHooks/validation/useAddStepFormSchema';
 import { AddStepInformation } from '../../../shared/types/types';
-
-
+import moment from 'moment'
 interface AddStepDialogProps {
     open: boolean,
     defaultBatchId: string,
@@ -21,14 +20,17 @@ const AddStepDialog: React.FC<AddStepDialogProps> = (props) => {
         {
             resolver: validationSchema ? yupResolver(validationSchema) : undefined,
             defaultValues: {
-                timeStamp: new Date(),
+                timeStamp: moment().format(),
                 operatorName: "",
                 batchId: props.defaultBatchId ? props.defaultBatchId : ""
             }
         });
 
+    const timeStamp = () => moment().format().slice(0, 19);
+
     const submitOperationStep = (data: AddStepInformation) => {
-        data.timeStamp = new Date();
+        data.timeStamp = timeStamp();
+        console.log("transmitted timestamp", data.timeStamp)
         props.onSubmit(data)
         reset();
     }

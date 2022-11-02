@@ -22,7 +22,7 @@ export const getOperationInformation = async (): Promise<OperationInformation> =
 }
 
 type AddOperationStepRequest = {
-    timeStamp: Date,
+    timeStamp: string,
     operatorName: string
 }
 

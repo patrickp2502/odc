@@ -41,10 +41,7 @@ public class OperationController {
     }
 
     @PostMapping("/{id}/steps")
-    public ResponseEntity<Void> addNewCollectedInformation(@PathVariable long id,
-                                                           @RequestBody AddOperationInformationRequest request) {
-        log.info(LocalDateTime.now().toString());
-        log.info(request.toString()+id);
+    public ResponseEntity<Void> addNewCollectedInformation(@PathVariable long id, @RequestBody AddOperationInformationRequest request) {
         operationService.processStepInformationRequest(id, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -9,7 +9,6 @@ import OperationDetails from './components/pages/OperationDetails';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-
 const App: React.FC = () => {
 
   const client = new QueryClient();

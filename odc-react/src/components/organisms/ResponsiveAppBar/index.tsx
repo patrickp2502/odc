@@ -15,11 +15,12 @@ type PageInformationType = {
     name: string,
     path: string
 }
-
+//TODO: Rückmeldung and Übersicht not active!
 const pageInformations: PageInformationType[] = [
     { name: 'Aufträge', path: '/operations' },
-    { name: 'Rückmeldung', path: '/steps' },
-    { name: 'Übersicht', path: '/overview' }]
+    //{ name: 'Rückmeldung', path: '/steps' },
+    //{ name: 'Übersicht', path: '/overview' }
+]
 
 
 export const ResponsiveAppBar = () => {
