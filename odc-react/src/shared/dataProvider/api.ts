@@ -22,8 +22,8 @@ export const getOperationInformation = async (): Promise<OperationInformation> =
 }
 
 type AddOperationStepRequest = {
-    timeStamp: Date,
-    operatorName: String
+    timeStamp: string,
+    operatorName: string
 }
 
 export const postOperationStep = async (payload: AddOperationStepRequest, operationId: string | undefined) => {

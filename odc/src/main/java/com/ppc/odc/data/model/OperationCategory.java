@@ -13,6 +13,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @ToString
 @Builder
+@EqualsAndHashCode
 public class OperationCategory {
 
     @Id

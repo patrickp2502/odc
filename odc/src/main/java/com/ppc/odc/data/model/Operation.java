@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -40,9 +41,8 @@ public class OperationController {
     }
 
     @PostMapping("/{id}/steps")
-    public ResponseEntity<Void> addNewCollectedInformation(@PathVariable long id,
-                                                           @RequestBody AddOperationInformationRequest request) {
-        log.info(request.toString()+id);
+    public ResponseEntity<Void> addNewCollectedInformation(@PathVariable long id, @RequestBody AddOperationInformationRequest request) {
+        operationService.processStepInformationRequest(id, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

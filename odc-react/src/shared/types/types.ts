@@ -93,5 +93,5 @@ export type HeaderKeyPair = {
 export type AddStepInformation = {
     operatorName: string,
     batchId: string,
-    timeStamp: Date,
+    timeStamp: string,
 }

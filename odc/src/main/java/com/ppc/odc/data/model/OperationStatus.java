@@ -11,6 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class OperationStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

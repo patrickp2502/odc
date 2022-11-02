@@ -9,7 +9,6 @@ import OperationDetails from './components/pages/OperationDetails';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-
 const App: React.FC = () => {
 
   const client = new QueryClient();
@@ -19,7 +18,7 @@ const App: React.FC = () => {
         <QueryClientProvider client={client}>
           <BrowserRouter>
             <Routes>
-              <Route path='/' element={<Steps />} />
+              <Route path='/' element={<Operations />} />
               <Route path='/steps' element={<Steps />} />
               <Route path='/operations' element={<Operations />} />
               <Route path='/overview' element={<Overview />} />

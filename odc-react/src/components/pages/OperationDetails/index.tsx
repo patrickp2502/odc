@@ -3,7 +3,7 @@ import ResponsiveAppBar from '../../organisms/ResponsiveAppBar'
 import PageTemplate from '../../templates/PageTemplate'
 import { useParams } from 'react-router-dom'
 import OperationDetailsBodyTemplate from '../../templates/OperationDetailsBodyTemplate'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getOperation, getOperationSteps, postOperationStep } from '../../../shared/dataProvider/api'
 import OperationInformationHeader from '../../organisms/OperationInformationHeader'
 import OperationStepTable from '../../organisms/OperationStepTable'
@@ -13,6 +13,7 @@ import { AddStepInformation } from '../../../shared/types/types'
 
 const OperationDetails: React.FC = () => {
 
+    const queryClient = useQueryClient();
     const [showDialog, setShowDialog] = useState<boolean>(false)
     const operationId = useParams().operationId;
     const {
@@ -33,7 +34,14 @@ const OperationDetails: React.FC = () => {
         () => getOperationSteps(operationId))
 
 
-    const mutation = useMutation((payload: AddStepInformation) => postOperationStep(payload, operationId))
+    const mutation = useMutation((payload: AddStepInformation) => postOperationStep(payload, operationId),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['operation']);
+                queryClient.invalidateQueries(['operationSteps']);
+            }
+
+        })
 
     if (!operationDataIsFetched ||
         operationDataIsIdle ||
@@ -50,6 +58,7 @@ const OperationDetails: React.FC = () => {
 
         const handleSubmit = (data: any) => {
             mutation.mutate(data);
+            setShowDialog(false);
 
         }
 
